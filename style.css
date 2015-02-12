@@ -3,6 +3,27 @@ svg {
 }
 
 .area {
+  fill: steelblue;
+  clip-path: url(#clip);
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.xbrush {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+/*svg {
+  font: 10px sans-serif;
+}
+
+.area {
   fill: lightgray;
   clip-path: url(#clip);
 }
@@ -82,4 +103,4 @@ rect.pane {
     border-top: 0.8em solid transparent;
     border-bottom: 0.8em solid transparent;
     border-left: 0.8em solid #e6e6e6;
-}
+}*/
