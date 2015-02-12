@@ -4,21 +4,50 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <title>Timeseries</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css" /><!-- 
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.1.0/lodash.min.js"></script>
     <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
-</head>
+ -->
+    <script type="text/javascript" src="d3/d3.min.js"></script>
+    <script type="text/javascript" src="moment/moment.js"></script>
+    <script type="text/javascript" src="underscore/underscore-min.js"></script>
+ </head>
 
 <body>
 
     <script src="timeseries.js"></script>
     <h1>D3 Timeseries</h1>
-    <div class="timeseries"></div>
+    <div class="timeseries one"></div>
     <div class="brush-control">
         <div class="brush-info">Click and drag on the timeseries to create a brush.</div>
         <button class="clear-brush">Clear brush</button>
     </div>
+    <div class="timeseries two"></div>
+
+  <script>
+    window.onload = function() {
+        /* Generate random times between two dates */
+        function getData(start, end) {
+          var data = [];
+           for (i = 0; i < 50; i++) {
+              data.push({
+                  'value': (randomDate(start, end))
+              })
+          }
+          return data;
+        }
+       
+        function randomDate(start, end) {
+            return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).valueOf();
+        }
+
+        timeseries('timeseries one', getData(new Date(2012, 1, 1), new Date(2015, 1, 2)), true);
+        timeseries('timeseries two', getData(new Date(2015, 1, 1), new Date(2015, 1, 2)), false);
+        console.log(timeseries.getBrushExtent());
+    }
+  </script>
+
 </body>
 
 </html>

@@ -1,19 +1,22 @@
+/* TIMESERIES - A simple D3.js timeseries.
+*   call timeseries(<classd>, <data>, <enableBrush>) with the following parameters
+*   classd - the class name of your container div for the timeseries to attach to
+*   enableBrush - whether to enable the brush
+*/
 (function() {
 
-    window.onload = function() {
-        /* Load data */
-        d3.csv('data.csv', function(err, data) {
-            if (err) {
-                console.log("Error reading data file!", err);
-                return;
-            }
+    var timeseries = function(classd, data, enableBrush) {
+        classd = classd.replace(new RegExp(" "), ".");
+        console.log(classd);
+        render(classd, data, enableBrush);
+    }
 
-            _.each(data, function(d) {
-                d.value = moment(d.date, "MM/DD/YYYY HH:mm:ss").valueOf();
-            })
+    // ---------------------------------------------------------------------------------------------
+    // ---------------------------------- Time Manipulation ----------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
-            render(data);
-        })
+    function lessThanDay(d) {
+        return (d === "hours" || d === "minutes" || d === "seconds") ? true : false;
     }
 
     function getDate(d) {
@@ -32,85 +35,93 @@
         return date.valueOf();
     }
 
-    function redraw() {
-        d3.selectAll(".circ")
-            .transition(10)
-            .style("opacity", function(d) {
-                return d.selected ? 1 : 0.6;
-            })
-            .attr("r", function(d) {
-                return d.selected ? 15 : 7;
-            });
-    }
-
     /* 
-      Given a list of UTC dates, compute the minimum and maxium dates. Return a padded
+      Given a list of time stamps, compute the minimum and maxium dates. Return a padded
       version of the min and max dates based on the temporal distance between them.
     */
     function timeRangePad(dates) {
-      var minDate, maxDate;
-      if (dates.length > 1) {
-        minDate = moment(_.min(dates));
-        maxDate = moment(_.max(dates));
-        var paddingUnit = getDatePadding(minDate, maxDate);
-        minDate.subtract(1, paddingUnit);
-        maxDate.add(1, paddingUnit);
-      } else {
-        minDate = moment(dates[0]).subtract(1, 'hour');
-        maxDate = moment(dates[0]).add(1, 'hour');
-      }
-      return {'minDate': minDate, 'maxDate': maxDate};
+        var minDate, maxDate, pad;
+        if (dates.length > 1) {
+            minDate = moment(_.min(dates));
+            maxDate = moment(_.max(dates));
+            pad = getDatePadding(minDate, maxDate);
+            minDate.subtract(1, pad);
+            maxDate.add(1, pad);
+        } else {
+            minDate = moment(dates[0]).subtract(1, 'hour');
+            maxDate = moment(dates[0]).add(1, 'hour');
+        }
+        return {
+            'minDate': minDate,
+            'maxDate': maxDate,
+            'pad': pad
+        };
     };
 
     function getDatePadding(minDate, maxDate) {
-      if (maxDate.diff(minDate, 'years') > 0)
-        return 'years';
-      else if (maxDate.diff(minDate, 'months') > 0)
-        return 'months';
-      else if (maxDate.diff(minDate, 'days') > 0)
-        return 'days';
-      else if (maxDate.diff(minDate, 'hours') > 0)
-        return 'hours';
-      else if (maxDate.diff(minDate, 'minutes') > 0)
-        return 'minutes';
-      else
-        return 'seconds';
+        if (maxDate.diff(minDate, 'years') > 0)
+            return 'months';
+        else if (maxDate.diff(minDate, 'months') > 0)
+            return 'days';
+        else if (maxDate.diff(minDate, 'days') > 0)
+            return 'days';
+        else if (maxDate.diff(minDate, 'hours') > 0)
+            return 'hours';
+        else if (maxDate.diff(minDate, 'minutes') > 0)
+            return 'minutes';
+        else
+            return 'seconds';
     }
 
+    // ---------------------------------------------------------------------------------------------
+    // ------------------------------------- Rendering ---------------------------------------------
+    // ---------------------------------------------------------------------------------------------
 
-    function render(data) {
+    function render(classd, data, enableBrush) {
+
+        var padding = timeRangePad(_.pluck(data, 'value'));
+
         var margin = {
-                top: 10,
-                right: 25,
-                bottom: 15,
-                left: 25
-            },
-            width = window.innerWidth - 100,
-            height = 300 - margin.top - margin.bottom;
+            top: 10,
+            right: 25,
+            bottom: 15,
+            left: 25
+        }
+        var width = window.innerWidth - 100;
+        var height = (lessThanDay(padding.pad)) ? (100 - margin.top - margin.bottom) : (300 - margin.top - margin.bottom);
 
         var x = d3.time.scale().range([0 + margin.right, width - margin.left]),
             y = d3.time.scale()
             .range([margin.top, height - margin.bottom - margin.top]);
 
         var ticks = width > 800 ? 8 : 4;
+
+        x.domain(d3.extent([padding.minDate, padding.maxDate]));
+
+        var xFormat, yFormat;
+        if (lessThanDay(padding.pad)) {
+            xFormat = "%H:%M";
+            yFormat = "%m/%d/%y";
+            y.domain(d3.extent([padding.minDate]));
+        } else {
+            xFormat = "%m/%d/%y";
+            yFormat = "%H:%M";
+            var start = new Date(2012, 0, 1, 0, 0, 0, 0).getTime();
+            var stop = new Date(2012, 0, 1, 23, 59, 59, 59).getTime();
+            y.domain(d3.extent([start, stop]));
+        }
+
         var xAxis = d3.svg.axis().scale(x).orient("bottom")
             .ticks(ticks)
             .tickSize(-height, 0)
-            .tickFormat(d3.time.format("%m/%d/%y"));
+            .tickFormat(d3.time.format(xFormat));
 
         var yAxis = d3.svg.axis().scale(y).orient("left")
             .ticks(5)
             .tickSize(-width + margin.right, margin.left)
-            .tickFormat(d3.time.format("%H:%M"));
+            .tickFormat(d3.time.format(yFormat));
 
-        var padded = timeRangePad(_.pluck(data, 'value'));
-
-        x.domain(d3.extent([padded.minDate, padded.maxDate]));
-        var start = new Date(2012, 0, 1, 0, 0, 0, 0).getTime();
-        var stop = new Date(2012, 0, 1, 23, 59, 59, 59).getTime();
-        y.domain(d3.extent([stop, start]));
-
-        var svg = d3.select(".timeseries").append("svg")
+        var svg = d3.select("." + classd).append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom);
 
@@ -120,31 +131,40 @@
 
         context.append("g")
             .attr("class", "x axis")
-            .attr("transform", "translate(" + margin.left + "," + (height - margin.bottom) + ")")
+            .attr("transform", "translate(" + margin.left + "," + (margin.top + (height - margin.bottom)) + ")")
             .call(xAxis);
 
         context.append("g")
             .attr("class", "y axis")
-            .attr("transform", "translate(40," + 0 + ")")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
             .call(yAxis);
 
-        context.selectAll(".circ")
+        var circles = context.append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+        circles.selectAll(".circ")
             .data(data)
             .enter().append("circle")
             .attr("class", "circ")
             .attr("cx", function(d) {
-                return x(getDate(d.value));
+                return (lessThanDay(padding.pad)) ? x(d.value) : x(getDate(d.value));
             })
             .attr("cy", function(d, i) {
-                return y(getTime(d.value));
+                return (lessThanDay(padding.pad)) ? y(getDate(d.value)) : y(getTime(d.value));
             })
             .attr("r", 9)
+            .on("click", function(d) {
+                console.log(new Date(d.value));
+            })
 
+        // ----------------------------------------- Brush ---------------------------------------------
+
+        if (enableBrush) {
             var brush = d3.svg.brush()
                 .x(x)
                 .on("brush", _.throttle(brushed, 200));
 
-            context.append("g")
+            circles.append("g")
                 .attr("class", "brush")
                 .call(brush)
                 .selectAll("rect")
@@ -165,5 +185,29 @@
                     d3.select('.clear-brush').style("display", "none");
                 }
             })
+
+            timeseries.getBrushExtent = function() {
+                if (brush)
+                    return brush.extent();
+            }
+        }
     }
+
+    /* Use this function, in conjunction to setting a time element to 'selected', to highlight the 
+    data point on the timeseries. */
+    function redraw() {
+        d3.selectAll(".circ")
+            .transition(10)
+            .style("opacity", function(d) {
+                return d.selected ? 1 : 0.6;
+            })
+            .attr("r", function(d) {
+                return d.selected ? 15 : 7;
+            });
+    }
+
+    if (typeof define === "function" && define.amd) define(timeseries);
+    else if (typeof module === "object" && module.exports) module.exports = timeseries;
+    this.timeseries = timeseries;
+
 })();
