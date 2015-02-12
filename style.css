@@ -1,106 +1,43 @@
-svg {
-  font: 10px sans-serif;
+body {
+    font: 12px sans-serif;
 }
-
-.area {
-  fill: steelblue;
-  clip-path: url(#clip);
+.timeseries {
+    margin: 1%;
 }
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
+.circ {
+    fill: #D35400;
+    opacity: 0.6;
+    stroke: rgba(211, 84, 0, 0.7);
+    stroke-width: 5px;
 }
-
-.xbrush {
-  stroke: #fff;
-  fill-opacity: .125;
-  shape-rendering: crispEdges;
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
 }
-/*svg {
-  font: 10px sans-serif;
+.axis text {
+    font-size: 12px;
 }
-
-.area {
-  fill: lightgray;
-  clip-path: url(#clip);
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
 .brush .extent {
-  stroke: #fff;
-  fill-opacity: .125;
-  shape-rendering: crispEdges;
-  clip-path: url(#clip);
+    stroke: #fff;
+    fill-opacity: .125;
+    shape-rendering: crispEdges;
 }
-
-rect.pane {
-  cursor: move;
-  fill: none;
-  pointer-events: all;
+.tick line {
+    stroke: #d5d5d5;
+    opacity: 0.7;
 }
-
-.ui-slider-horizontal .ui-slider-range {
-    background-color: #97ce00;
+.domain {
+    display: none;
 }
-.ui-slider-control-plus, .ui-slider-control-minus {
-    width: 26px;
-    height: 26px;
-    position: absolute;
-    z-index: 99;
-    margin: -7px 0 0 -13px;
-    border: 1px solid #d3d3d3;
-    -moz-border-radius:5px;
-    -webkit-border-radius:5px;
-    border-radius:5px;
-    background: #97ce00;
-    line-height:26px;
+.clear-brush {
+    display: none;
 }
-.ui-slider-control-plus:after, .ui-slider-control-minus:after {
-    position:absolute;
-    width:26px;
-    height:26px;
-    color:#fff;
-    text-align:center;
-    right:1px;
-    top:-2px;
-    line-height:26px;
-    font-size:26px;
+.brush-control {
+    padding: .5%;
+    width: 100%;
+    text-align: center;
 }
-.ui-slider-control-plus:after {
-    content:"+";
+.brush-info {
+    display: inline-block;
 }
-.ui-slider-control-minus:after {
-    content:"-";
-}
-.ui-slider-control-minus, .ui-slider-control-plus, .ui-slider-handle {
-    cursor: pointer;
-}
-.ui-slider-handle.arrow-left, .ui-slider-handle.arrow-right {
-    width: 0;
-    height: 0;
-    border: none;
-    background: none;
-    outline: none;
-    cursor: pointer;
-}
-.ui-slider-handle.arrow-left {
-    margin-left: -16px;
-    border-top: 0.8em solid transparent;
-    border-bottom: 0.8em solid transparent;
-    border-right: 0.8em solid #e6e6e6;
-}
-.ui-slider-handle.arrow-right {
-    margin-left: 0px;
-    border-top: 0.8em solid transparent;
-    border-bottom: 0.8em solid transparent;
-    border-left: 0.8em solid #e6e6e6;
-}*/

@@ -1,16 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-    <title>Simple Line Graph using SVG and d3.js</title>
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-
-    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
+    <title>Timeseries</title>
     <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.1.0/lodash.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+</head>
 
-   <script src="timeseries.js"></script>
+<body>
 
-    </body>
+    <script src="timeseries.js"></script>
+    <h1>D3 Timeseries</h1>
+    <div class="timeseries"></div>
+    <div class="brush-control">
+        <div class="brush-info">Click and drag on the timeseries to create a brush.</div>
+        <button class="clear-brush">Clear brush</button>
+    </div>
+</body>
+
 </html>
