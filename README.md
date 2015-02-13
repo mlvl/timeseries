@@ -1,6 +1,6 @@
 Timeseries
 ==========
-## A D3.js timeseries.
+#### A D3.js timeseries.
 
 ![ScreenShot](/images/timeseries.png)
 
