@@ -32,6 +32,9 @@ code {
     text-align: center;
     margin: 1% 0;
 }
+.header img {
+    padding-top: 10px;
+}
 .header div {
     font-weight: 700;
     font-size: 1.6em;
