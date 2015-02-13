@@ -61,23 +61,24 @@
     <script>
     window.onload = function() {
         /* Generate random times between two dates */
-        function getData(start, end) {
+        function getData(start, end, amount) {
             var data = [];
-            for (i = 0; i < 100; i++) {
+            for (i = 0; i < amount; i++) {
                 data.push({
                     'value': (randomDate(start, end))
                 })
             }
-            console.log(data)
             return data;
         }
 
         function randomDate(start, end) {
             return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).valueOf();
         }
-
-        timeseries('timeseries one', getData(new Date(2012, 1, 1), new Date(2015, 1, 2)), true);
-        timeseries('timeseries two', getData(new Date(2015, 1, 1), new Date(2015, 1, 2)), false);
+        var amount = 100;
+        if (window.innerWidth < 800)
+          amount = 30;
+        timeseries('timeseries one', getData(new Date(2012, 1, 1), new Date(2015, 1, 2), amount), true);
+        timeseries('timeseries two', getData(new Date(2015, 1, 1), new Date(2015, 1, 2), amount), false);
         console.log(timeseries.getBrushExtent());
     }
     </script>
