@@ -7,7 +7,6 @@
 
     var timeseries = function(classd, data, enableBrush) {
         classd = classd.replace(new RegExp(" "), ".");
-        console.log(classd);
         render(classd, data, enableBrush);
     }
 
@@ -78,16 +77,16 @@
     // ---------------------------------------------------------------------------------------------
 
     function render(classd, data, enableBrush) {
-
+        
         var padding = timeRangePad(_.pluck(data, 'value'));
 
         var margin = {
             top: 10,
             right: 25,
             bottom: 15,
-            left: 25
+            left: 35
         }
-        var width = window.innerWidth - 100;
+        var width = window.innerWidth - 150;
         var height = (lessThanDay(padding.pad)) ? (100 - margin.top - margin.bottom) : (300 - margin.top - margin.bottom);
 
         var x = d3.time.scale().range([0 + margin.right, width - margin.left]),
