@@ -10,7 +10,6 @@ a {
 }
 .text {
     width: 100%;
-    padding: 1%;
 }
 .text p {
     width: 75%;
@@ -19,9 +18,14 @@ a {
     text-align: center;
 }
 code {
-    width: 60%;
+    width: 95%;
     margin: auto;
     text-align: center;
+}
+@media screen and (min-width: 800px) {
+    code {
+        width: 70%;
+    }
 }
 .timeseries {
     width: 100%;
