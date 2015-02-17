@@ -4,4 +4,4 @@ Timeseries
 
 ![ScreenShot](/images/timeseries.png)
 
-Quickly and easily display temporal data. Filter using the optional brush. Check out the [live demo](http://mlvl.github.io/timeseries)!
+Quickly and easily display temporal data. Filter using the optional brush. Check out the [live demo](http://mlvl.github.io/timeseries) with documentation!

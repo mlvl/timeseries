@@ -5,9 +5,9 @@
 */
 (function() {
 
-    var timeseries = function(classd, data, enableBrush) {
-        classd = classd.replace(new RegExp(" "), ".");
-        render(classd, data, enableBrush);
+    var timeseries = function(spaced, data, enableBrush) {
+        classd = spaced.replace(new RegExp(" "), ".");
+        render(classd, spaced, data, enableBrush);
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -76,7 +76,7 @@
     // ------------------------------------- Rendering ---------------------------------------------
     // ---------------------------------------------------------------------------------------------
 
-    function render(classd, data, enableBrush) {
+    function render(classd, spaced, data, enableBrush) {
         
         var padding = timeRangePad(_.pluck(data, 'value'));
 
@@ -169,6 +169,9 @@
                 .selectAll("rect")
                 .attr("y", -6)
                 .attr("height", height - margin.bottom);
+
+            var brushEl = '<div class="brush-control"><div class="brush-info"><i>Click and drag on the timeseries to create a brush.</i></div><button class="clear-brush">Clear brush</button></div>';
+            window.document.getElementsByClassName(spaced)[0].insertAdjacentHTML('beforeend', brushEl);
 
             function brushed() {
                 if (!brush.empty()) {
