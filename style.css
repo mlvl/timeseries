@@ -43,12 +43,30 @@ code {
     font-size: 1.6em;
     padding-top: 10px;
 }
+.dac-logo {
+    display: none;
+}
+@media screen and (min-width: 800px) {
+    .dac-logo {
+        display: block;
+        position: absolute;
+        left: 5px;
+        top: 5px;
+    }
+    .dac-logo img {
+        width: 120px;
+    }
+}
 .contact {
     width: 50%;
     margin: auto;
     text-align: center;
 }
-
+.footer {
+    font-size: 0.9em;
+    text-align: center;
+    padding: 5px;
+}
 /** Styles for TIMESERIES */
 
 .timeseries {
