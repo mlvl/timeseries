@@ -15,11 +15,13 @@ Quickly and easily display temporal data. Filter using the optional brush. Check
 5. Add a DOM container ```<div class="timeseries"></div>```
 6. Create it!
 
+```JavaScript
       <script>
         window.onload = function() {
           var domEl = 'timeseries';
           var data = [{'value': 1380854103662},{'value': 1363641921283}];
           var brushEnabled = true;
           timeseries(domEl, data, brushEnabled);
-          }
-        </script>
+        }
+      </script>
+```
