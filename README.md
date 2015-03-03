@@ -10,9 +10,18 @@ Quickly and easily display temporal data. Filter using the optional brush. Check
 
 1. Get the source code
 2. Put it in your project's directory
-3. Include it in your index.html (or similar) ```<script src="<path to>\timeseries\timeseries.js"></script>```
-4. Include default styles if desired ```<link rel="stylesheet" href="<path to>\timeseries\style.css" />```
-5. Add a DOM container ```<div class="timeseries"></div>```
+3. Include it in your index.html (or similar) 
+```JavaScript
+<script src="<path to>\timeseries\timeseries.js"></script>
+```
+4. Include default styles if desired 
+```JavaScript
+<link rel="stylesheet" href="<path to>\timeseries\style.css" />
+```
+5. Add a DOM container 
+```JavaScript
+<div class="timeseries"></div>
+```
 6. Create it!
 
 ```JavaScript
