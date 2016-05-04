@@ -144,7 +144,9 @@
         circles.selectAll(".circ")
             .data(data)
             .enter().append("circle")
-            .attr("class", "circ")
+            .attr("class", function(d){
+              return d.hasOwnProperty("class")?d.class:"circ";
+            })
             .attr("cx", function(d) {
                 return (lessThanDay(padding.pad)) ? x(d.value) : x(getDate(d.value));
             })
